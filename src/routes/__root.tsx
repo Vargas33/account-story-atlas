@@ -82,7 +82,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "MBV Viagens" },
-      { name: "description", content: "Converse com o Barreto sobre sua próxima viagem. Demonstração com dados fictícios." },
+      {
+        name: "description",
+        content:
+          "Converse com o Barreto sobre sua próxima viagem. Demonstração com dados fictícios.",
+      },
       { name: "author", content: "MBV Viagens" },
       { property: "og:title", content: "MBV Viagens" },
       { property: "og:description", content: "Seu próximo destino começa com uma conversa." },
@@ -92,7 +96,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Manrope:wght@400;500;600;650;700;750;800&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Manrope:wght@400;500;600;650;700;750;800&display=swap",
+      },
       {
         rel: "stylesheet",
         href: appCss,
