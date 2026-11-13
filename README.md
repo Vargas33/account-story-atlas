@@ -50,7 +50,7 @@ As credenciais ficam em um arquivo `.env` local, ignorado pelo Git. Nenhuma chav
 
 ## 4. Melhoria escolhida
 
-[PREENCHER depois de implementar: valores também em reais, com a conversão declarada (taxa fixa de demonstração, USD original sempre visível, sem cotação em tempo real).]
+Valores também em reais, com a conversão declarada (taxa fixa de demonstração, USD original sempre visível, sem cotação em tempo real).
 
 Endereço do app publicado: https://account-story-atlas.lovable.app
 
@@ -62,7 +62,7 @@ Endereço do app publicado: https://account-story-atlas.lovable.app
 | `scripts/plaid_sandbox.py` | Script de consulta à Plaid Sandbox (sem segredos) |
 | `docs/prompt-lovable.md` | Prompt enviado ao Lovable |
 | `prints/` | Evidências: Pluggy (endpoints, conceitos, paginação), Plaid (contas, transações) e o app |
-| `.env.example` | Nomes das variáveis de ambiente, sem valores |
+| `.env.example` | Nomes das variáveis de ambiente, sem valores |prints/evidencias-prints.pdf
 
 ## Segurança
 
