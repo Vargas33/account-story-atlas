@@ -65,7 +65,7 @@ export async function answerQuestion(question: string, filters: Filters = {}, se
     let rows = await service.getTransactions(resolved);
     if (/transporte|viage|gast/.test(q) && !/resum/.test(q)) rows = rows.filter(t => ["Transporte", "Viagens"].includes(t.category));
     if (/ultim|recent|cinco|5 /.test(q)) rows = rows.slice(0, 5);
-    const period = resolved.start || resolved.end ? `${resolved.start ? displayDate(resolved.start) : "28/10/2026"} a ${resolved.end ? displayDate(resolved.end) : REFERENCE_DATE}` : rows.length ? `${displayDate(rows.at(-1)?.date ?? "2026-10-28")} a ${displayDate(rows[0].date)}` : `28/10/2026 a ${REFERENCE_DATE}`;
+    const period = resolved.start || resolved.end ? `${resolved.start ? displayDate(resolved.start) : "28/10/2026"} a ${resolved.end ? displayDate(resolved.end) : REFERENCE_DATE}` : rows.length ? `${displayDate(rows.at(-1)?.date ?? "2026-10-28")} a ${displayDate(rows[0]?.date ?? "2026-11-13")}` : `28/10/2026 a ${REFERENCE_DATE}`;
     if (!rows.length) return { text: "Não há transações na amostra para esse período ou conta. Você pode escolher outra conta ou ampliar o período.", kind: "transactions", transactions: [], period, count: 0 };
     const travel = /transporte|viage|gast/.test(q) && !/resum/.test(q);
     const summary = /resum|categoria|movimenta/.test(q);

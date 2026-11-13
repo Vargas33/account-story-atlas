@@ -20,6 +20,7 @@ const suggestions = [
 export function MbvChat({ threadId }: { threadId?: string }) {
   const navigate = useNavigate();
   const [threads, setThreads] = useState<Thread[]>([]);
+  const [draftId, setDraftId] = useState<string | undefined>();
   const [ready, setReady] = useState(false);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
@@ -38,7 +39,7 @@ export function MbvChat({ threadId }: { threadId?: string }) {
     setReady(true);
     textarea.current?.focus();
   }, []);
-  const active = threads.find(t => t.id === threadId);
+  const active = threads.find(t => t.id === (threadId ?? draftId));
   const messages = active?.messages ?? [];
   function persist(next: Thread[]) {
     threadsRef.current = next; setThreads(next);
@@ -53,8 +54,8 @@ export function MbvChat({ threadId }: { threadId?: string }) {
     if (!text.trim() || busyRef.current || !ready) return;
     if (filters.start && filters.end && filters.start > filters.end) { setError("A data inicial deve ser anterior ou igual à data final."); return; }
     setError(""); setLastRequest({text, filters}); setInput(""); setBusy(true); busyRef.current = true;
-    let current = threadsRef.current.find(t => t.id === threadId);
-    if (!current) { current = createThread(); persist([current, ...threadsRef.current]); navigate({ to: "/chat/$threadId", params: { threadId: current.id } }); }
+    let current = threadsRef.current.find(t => t.id === (threadId ?? draftId));
+    if (!current) { current = createThread(); persist([current, ...threadsRef.current]); setDraftId(current.id); }
     const id = current.id;
     const user: ChatMessage = { id: crypto.randomUUID(), role: "user", parts: [{ type: "text", text }] };
     updateThread(id, t => ({ ...t, title: t.messages.length ? t.title : text, updatedAt: new Date().toISOString(), messages: [...t.messages, user] }));
@@ -66,7 +67,7 @@ export function MbvChat({ threadId }: { threadId?: string }) {
       if (!mounted.current) return;
       updateThread(id, t => ({ ...t, messages: [...t.messages, { id: crypto.randomUUID(), role: "assistant", parts: [{ type: "text", text: answer.text }], answer }] }));
     } catch { if (mounted.current) setError("Não foi possível consultar a amostra local. Tente novamente; nenhuma operação bancária foi realizada."); }
-    finally { busyRef.current = false; if (mounted.current) { setBusy(false); textarea.current?.focus(); } }
+    finally { busyRef.current = false; if (mounted.current) { setBusy(false); textarea.current?.focus(); if (!threadId) navigate({ to: "/chat/$threadId", params: {threadId: id} }); } }
   }
   function deleteThread(id: string) {
     if (!window.confirm("Excluir esta conversa do histórico deste navegador?")) return;
