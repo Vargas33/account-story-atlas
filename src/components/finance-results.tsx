@@ -140,7 +140,7 @@ export function FinanceResults({
                   <progress
                     value={c.total}
                     max={Math.max(...summary.categories.map((x) => x.total), 1)}
-                    aria-label={`${c.category}: ${money(c.total)}`}
+                    aria-label={`${c.category}: ${moneyIn(c.total, currency)}`}
                   />
                 </div>
                 <strong>{moneyIn(c.total, currency)}</strong>

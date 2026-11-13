@@ -35,7 +35,7 @@ import {
 } from "@/components/ai-elements/prompt-input";
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import { FinanceResults } from "./finance-results";
-import { answerQuestion, type Filters } from "@/lib/demo-finance";
+import { answerQuestion, moneyBrl, type Currency, type Filters } from "@/lib/demo-finance";
 import {
   createThread,
   readThreads,
@@ -61,6 +61,7 @@ export function MbvChat({ threadId }: { threadId?: string }) {
   const [error, setError] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
+  const [currency, setCurrency] = useState<Currency>("USD");
   const [lastRequest, setLastRequest] = useState<{ text: string; filters: Filters } | null>(null);
   const textarea = useRef<HTMLTextAreaElement>(null);
   const threadsRef = useRef<Thread[]>([]);
@@ -80,9 +81,22 @@ export function MbvChat({ threadId }: { threadId?: string }) {
     } catch (e) {
       setError(e instanceof Error ? e.message : "Não foi possível abrir o histórico.");
     }
+    try {
+      if (localStorage.getItem("mbv-demo-currency") === "BRL") setCurrency("BRL");
+    } catch {
+      // Currency preference is optional; USD remains the default.
+    }
     setReady(true);
     textarea.current?.focus();
   }, []);
+  function pickCurrency(next: Currency) {
+    setCurrency(next);
+    try {
+      localStorage.setItem("mbv-demo-currency", next);
+    } catch {
+      // Preference is not persisted; the selection still applies to this session.
+    }
+  }
   const active = threads.find((t) => t.id === (threadId ?? draftId));
   const messages = active?.messages ?? [];
   function persist(next: Thread[]) {
