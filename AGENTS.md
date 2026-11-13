@@ -28,3 +28,10 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Application architecture
+- Keep financial reads behind the FinanceService interface; the initial adapter uses explicit local fixtures so a future sandbox integration can replace it without changing presentation.
+- Compute financial totals with pure tested functions, never with conversational text or model arithmetic, to preserve banking sign and debt rules.
+- Demo responses are deterministic local simulations, not AI Gateway calls; do not activate a backend for this frontend-only stage.
+- Use AI Elements for the transcript, markdown messages, composer, and loading state; streaming server transport is intentionally deferred because this version has no live AI.
+- Store local conversations per ID with a dedicated /chat/$threadId URL and hydrate browser storage after mount to keep SSR output safe.
