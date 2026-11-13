@@ -4,7 +4,7 @@ Chat de demonstração em que o assistente **Barreto**, dentro do app de uma ag�
 
 > **Demonstração educacional. Todos os dados são fictícios** e vêm da Plaid Sandbox. O app publicado funciona com uma amostra local e **não está conectado a nenhuma API**.
 
-App publicado: **[PREENCHER: endereço do app no Lovable]**
+App publicado: https://account-story-atlas.lovable.app
 
 ## 1. Onde está o cliente e de onde vem cada dado
 
