@@ -227,7 +227,7 @@ export async function answerQuestion(
   if (/contas/.test(q) && !/transac|movimenta|gasto/.test(q)) {
     const rows = await service.getAccounts();
     return {
-      text: `Estas são as **${rows.length} contas fictícias** da nossa amostra local. Todas estão em USD, sem conversão para reais.`,
+      text: `Estas são as **${rows.length} contas fictícias** da nossa amostra local. Os valores originais estão em USD; no seletor acima você pode ver a conversão com taxa fixa fictícia, nunca cotação em tempo real.`,
       kind: "accounts",
       accounts: rows,
       period: REFERENCE_DATE,
