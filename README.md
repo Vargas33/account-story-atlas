@@ -46,13 +46,13 @@ As credenciais ficam em um arquivo `.env` local, ignorado pelo Git. Nenhuma chav
 - O prompt completo enviado ao Lovable está em `docs/prompt-lovable.md`. Ele foi adaptado do guia do desafio para o cenário de agência de viagem.
 - Resumo: app focado em conversa, em português brasileiro, com selo "Demonstração · Dados fictícios", sugestões clicáveis, histórico local, valores preservados em USD, regras de sinal da Plaid (positivo é saída), campos ausentes como "Não informado" e nenhuma operação bancária de escrita.
 - A primeira entrega foi pedida em **modo demonstrativo** (Etapa 1), com a preparação, e não a ativação, de backend e Plaid (Etapa 2). Segredos só no backend.
-- **Ajustes depois da primeira versão:** [PREENCHER: o que você pediu ou corrigiu no Lovable, por exemplo o histórico de conversas]
+- **Ajustes depois da primeira versão: O histórico de conversa e visual das cores.
 
 ## 4. Melhoria escolhida
 
 [PREENCHER depois de implementar: valores também em reais, com a conversão declarada (taxa fixa de demonstração, USD original sempre visível, sem cotação em tempo real).]
 
-Endereço do app publicado: **[PREENCHER]**
+Endereço do app publicado: https://account-story-atlas.lovable.app
 
 ## Estrutura do repositório
 
