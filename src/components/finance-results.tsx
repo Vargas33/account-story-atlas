@@ -12,18 +12,21 @@ import {
   accountTotals,
   accounts,
   displayDate,
-  money,
+  moneyIn,
   summarize,
   type Answer,
+  type Currency,
   type Filters,
 } from "@/lib/demo-finance";
 import { Button } from "@/components/ui/button";
 export function FinanceResults({
   answer,
   onFilter,
+  currency = "USD",
 }: {
   answer: Answer;
   onFilter: (filters: Filters) => void;
+  currency?: Currency;
 }) {
   const totals = answer.accounts ? accountTotals(answer.accounts) : undefined;
   const summary = answer.transactions ? summarize(answer.transactions) : undefined;

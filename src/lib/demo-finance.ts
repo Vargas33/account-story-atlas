@@ -127,6 +127,18 @@ export function money(value: number | null | undefined) {
 export function displayDate(date: string) {
   return date.split("-").reverse().join("/");
 }
+export type Currency = "USD" | "BRL";
+// Fixed fictitious demo rate, always declared on screen; never a live quote.
+export const DEMO_USD_BRL_RATE = 5;
+export function moneyBrl(value: number | null | undefined) {
+  return value == null
+    ? "Não informado"
+    : `R$ ${(value * DEMO_USD_BRL_RATE).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+export function moneyIn(value: number | null | undefined, currency: Currency = "USD") {
+  if (value == null) return "Não informado";
+  return currency === "BRL" ? `${moneyBrl(value)} · ${money(value)}` : money(value);
+}
 export function accountTotals(rows: Account[]) {
   return {
     available: rows
