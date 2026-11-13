@@ -12,18 +12,21 @@ import {
   accountTotals,
   accounts,
   displayDate,
-  money,
+  moneyIn,
   summarize,
   type Answer,
+  type Currency,
   type Filters,
 } from "@/lib/demo-finance";
 import { Button } from "@/components/ui/button";
 export function FinanceResults({
   answer,
   onFilter,
+  currency = "USD",
 }: {
   answer: Answer;
   onFilter: (filters: Filters) => void;
+  currency?: Currency;
 }) {
   const totals = answer.accounts ? accountTotals(answer.accounts) : undefined;
   const summary = answer.transactions ? summarize(answer.transactions) : undefined;
@@ -33,15 +36,15 @@ export function FinanceResults({
         <div className="result-totals">
           <div>
             <span>Dinheiro disponível</span>
-            <strong className="text-positive">{money(totals.available)}</strong>
+            <strong className="text-positive">{moneyIn(totals.available, currency)}</strong>
           </div>
           <div>
             <span>Dívidas de cartões</span>
-            <strong>{money(totals.debt)}</strong>
+            <strong>{moneyIn(totals.debt, currency)}</strong>
           </div>
           <div>
             <span>Limites totais de crédito</span>
-            <strong>{money(totals.limit)}</strong>
+            <strong>{moneyIn(totals.limit, currency)}</strong>
           </div>
         </div>
       )}
@@ -59,16 +62,16 @@ export function FinanceResults({
               <dl>
                 <div>
                   <dt>{a.type === "Cartão de crédito" ? "Dívida" : "Saldo atual"}</dt>
-                  <dd>{money(a.current)}</dd>
+                  <dd>{moneyIn(a.current, currency)}</dd>
                 </div>
                 <div>
                   <dt>{a.type === "Cartão de crédito" ? "Crédito disponível" : "Disponível"}</dt>
-                  <dd>{money(a.available)}</dd>
+                  <dd>{moneyIn(a.available, currency)}</dd>
                 </div>
                 {a.type === "Cartão de crédito" && (
                   <div>
                     <dt>Limite de crédito</dt>
-                    <dd>{money(a.limit)}</dd>
+                    <dd>{moneyIn(a.limit, currency)}</dd>
                   </div>
                 )}
               </dl>
@@ -118,15 +121,15 @@ export function FinanceResults({
           <div className="result-totals">
             <div>
               <span>Saídas confirmadas</span>
-              <strong>{money(summary.outflow)}</strong>
+              <strong>{moneyIn(summary.outflow, currency)}</strong>
             </div>
             <div>
               <span>Entradas confirmadas</span>
-              <strong>{money(summary.inflow)}</strong>
+              <strong>{moneyIn(summary.inflow, currency)}</strong>
             </div>
             <div>
               <span>Consumo confirmado</span>
-              <strong>{money(summary.consumption)}</strong>
+              <strong>{moneyIn(summary.consumption, currency)}</strong>
             </div>
           </div>
           <div className="mt-4">
@@ -137,15 +140,16 @@ export function FinanceResults({
                   <progress
                     value={c.total}
                     max={Math.max(...summary.categories.map((x) => x.total), 1)}
-                    aria-label={`${c.category}: ${money(c.total)}`}
+                    aria-label={`${c.category}: ${moneyIn(c.total, currency)}`}
                   />
                 </div>
-                <strong>{money(c.total)}</strong>
+                <strong>{moneyIn(c.total, currency)}</strong>
               </div>
             ))}
           </div>
           <p className="text-[11px] text-muted-foreground mt-3">
-            Saídas pendentes: {money(summary.pendingOutflow)} · Pagamento de dívida não é consumo.
+            Saídas pendentes: {moneyIn(summary.pendingOutflow, currency)} · Pagamento de dívida não
+            é consumo.
           </p>
         </>
       )}
@@ -175,7 +179,7 @@ export function FinanceResults({
                 </span>
               </div>
               <div className="transaction-amount">
-                {money(Math.abs(t.amount))}
+                {moneyIn(Math.abs(t.amount), currency)}
                 <small className="flex items-center justify-end gap-1">
                   {t.amount < 0 ? <ArrowDownLeft size={11} /> : <ArrowUpRight size={11} />}
                   {t.amount < 0 ? "Entrada" : "Saída"}
@@ -191,6 +195,12 @@ export function FinanceResults({
           analisados
           <br />
           Amostra local fictícia · Referência de origem: Plaid Sandbox · Resposta simulada
+          {currency === "BRL" && (
+            <>
+              <br />
+              Taxa de demonstração: 1 USD = R$ 5,00, fixa e fictícia · Não é cotação em tempo real
+            </>
+          )}
         </p>
       )}
     </>

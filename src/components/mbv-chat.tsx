@@ -35,7 +35,7 @@ import {
 } from "@/components/ai-elements/prompt-input";
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import { FinanceResults } from "./finance-results";
-import { answerQuestion, type Filters } from "@/lib/demo-finance";
+import { answerQuestion, moneyBrl, type Currency, type Filters } from "@/lib/demo-finance";
 import {
   createThread,
   readThreads,
@@ -61,6 +61,7 @@ export function MbvChat({ threadId }: { threadId?: string }) {
   const [error, setError] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
+  const [currency, setCurrency] = useState<Currency>("USD");
   const [lastRequest, setLastRequest] = useState<{ text: string; filters: Filters } | null>(null);
   const textarea = useRef<HTMLTextAreaElement>(null);
   const threadsRef = useRef<Thread[]>([]);
@@ -80,9 +81,22 @@ export function MbvChat({ threadId }: { threadId?: string }) {
     } catch (e) {
       setError(e instanceof Error ? e.message : "Não foi possível abrir o histórico.");
     }
+    try {
+      if (localStorage.getItem("mbv-demo-currency") === "BRL") setCurrency("BRL");
+    } catch {
+      // Currency preference is optional; USD remains the default.
+    }
     setReady(true);
     textarea.current?.focus();
   }, []);
+  function pickCurrency(next: Currency) {
+    setCurrency(next);
+    try {
+      localStorage.setItem("mbv-demo-currency", next);
+    } catch {
+      // Preference is not persisted; the selection still applies to this session.
+    }
+  }
   const active = threads.find((t) => t.id === (threadId ?? draftId));
   const messages = active?.messages ?? [];
   function persist(next: Thread[]) {
@@ -322,6 +336,29 @@ export function MbvChat({ threadId }: { threadId?: string }) {
           </div>
           <div className="flex items-center gap-3">
             <div>
+              <div className="currency-switch" role="group" aria-label="Moeda de exibição">
+                <button
+                  type="button"
+                  aria-pressed={currency === "USD"}
+                  onClick={() => pickCurrency("USD")}
+                >
+                  USD
+                </button>
+                <button
+                  type="button"
+                  aria-pressed={currency === "BRL"}
+                  onClick={() => pickCurrency("BRL")}
+                >
+                  BRL
+                </button>
+              </div>
+              {currency === "BRL" && (
+                <p className="rate-note">
+                  Taxa de demonstração: 1 USD = {moneyBrl(1)}, fixa e fictícia
+                </p>
+              )}
+            </div>
+            <div>
               <div className="demo-badge">
                 <span className="demo-dot" />
                 Demonstração · Dados fictícios
@@ -346,8 +383,9 @@ export function MbvChat({ threadId }: { threadId?: string }) {
             <p>
               Respostas simuladas, calculadas sobre 4 contas e 6 transações locais fictícias. Não há
               conexão ativa com Plaid, Pluggy ou IA. Não são os 14 registros de contas e 16
-              transações da consulta anterior. Histórico salvo apenas neste navegador. Valores em
-              USD, sem conversão. O Barreto não fornece recomendação financeira.
+              transações da consulta anterior. Histórico salvo apenas neste navegador. Valores
+              originais em USD; a conversão para BRL usa taxa fixa fictícia declarada na tela,
+              nunca cotação em tempo real. O Barreto não fornece recomendação financeira.
             </p>
             <Button variant="link" size="sm" onClick={() => setInfoOpen(false)}>
               Fechar
@@ -441,6 +479,7 @@ export function MbvChat({ threadId }: { threadId?: string }) {
                     {m.answer && (
                       <FinanceResults
                         answer={m.answer}
+                        currency={currency}
                         onFilter={(f) => send("Listar transações por período e conta", f)}
                       />
                     )}
@@ -488,7 +527,9 @@ export function MbvChat({ threadId }: { threadId?: string }) {
             </PromptInputFooter>
           </PromptInput>
           <p className="composer-disclaimer">
-            Respostas simuladas · Sem recomendação financeira · Valores em USD
+            {currency === "BRL"
+              ? `Respostas simuladas · Sem recomendação financeira · Taxa fixa fictícia: 1 USD = ${moneyBrl(1)}`
+              : "Respostas simuladas · Sem recomendação financeira · Valores em USD"}
           </p>
         </div>
       </main>

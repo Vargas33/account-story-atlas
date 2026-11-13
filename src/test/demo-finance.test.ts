@@ -3,8 +3,11 @@ import {
   accounts,
   accountTotals,
   answerQuestion,
+  DEMO_USD_BRL_RATE,
   demoFinanceService,
   money,
+  moneyBrl,
+  moneyIn,
   summarize,
   transactions,
 } from "@/lib/demo-finance";
@@ -64,5 +67,13 @@ describe("Regras financeiras da demonstração", () => {
   });
   it("não gera números para preços de passagens", async () => {
     expect((await answerQuestion("Qual o preço de passagens?")).kind).toBeUndefined();
+  });
+  it("converte para BRL com taxa fixa fictícia, mantendo o USD original visível", () => {
+    expect(DEMO_USD_BRL_RATE).toBe(5);
+    expect(moneyBrl(110)).toBe("R$ 550,00");
+    expect(moneyBrl(null)).toBe("Não informado");
+    expect(moneyIn(110, "BRL")).toBe("R$ 550,00 · US$ 110,00");
+    expect(moneyIn(110, "USD")).toBe("US$ 110,00");
+    expect(moneyIn(null, "BRL")).toBe("Não informado");
   });
 });
