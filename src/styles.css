@@ -187,6 +187,7 @@
 .sidebar {
   width: 264px;
   flex-shrink: 0;
+  overflow-y: auto;
   background: var(--rail);
   color: var(--rail-foreground);
   display: flex;
@@ -259,6 +260,8 @@
 }
 .thread-list {
   overflow: auto;
+  flex-shrink: 0;
+  min-height: 36px;
   max-height: 29vh;
   margin-top: 6px;
 }
