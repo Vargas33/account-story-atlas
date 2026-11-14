@@ -34,4 +34,4 @@ dist-ssr
 .env
 .env.*
 !.env.example
-plaid_token.txt
+.plaid_access_token.json
