@@ -46,7 +46,7 @@ As credenciais ficam em um arquivo `.env` local, ignorado pelo Git. Nenhuma chav
 - O prompt completo enviado ao Lovable está em `docs/prompt-lovable.md`. Ele foi adaptado do guia do desafio para o cenário de agência de viagem.
 - Resumo: app focado em conversa, em português brasileiro, com selo "Demonstração · Dados fictícios", sugestões clicáveis, histórico local, valores preservados em USD, regras de sinal da Plaid (positivo é saída), campos ausentes como "Não informado" e nenhuma operação bancária de escrita.
 - A primeira entrega foi pedida em **modo demonstrativo** (Etapa 1), com a preparação, e não a ativação, de backend e Plaid (Etapa 2). Segredos só no backend.
-- **Ajustes depois da primeira versão: O histórico de conversa e visual das cores.
+- **Ajustes depois da primeira versão:** correção do histórico de conversas e ajuste visual das cores.
 
 ## 4. Melhoria escolhida
 
@@ -61,8 +61,8 @@ Endereço do app publicado: https://account-story-atlas.lovable.app
 | `src/` e demais arquivos | Código do app gerado pelo Lovable |
 | `scripts/plaid_sandbox.py` | Script de consulta à Plaid Sandbox (sem segredos) |
 | `docs/prompt-lovable.md` | Prompt enviado ao Lovable |
-| `prints/` | Evidências: Pluggy (endpoints, conceitos, paginação), Plaid (contas, transações) e o app |
-| `.env.example` | Nomes das variáveis de ambiente, sem valores |prints/evidencias-prints.pdf
+| `prints/prints.pdf` | Evidências: Pluggy (endpoints, conceitos, paginação), Plaid (contas, transações) e o app |
+| `.env.example` | Nomes das variáveis de ambiente, sem valores | 
 
 ## Segurança
 
